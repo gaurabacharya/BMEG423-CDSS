@@ -1,0 +1,32 @@
+# Exploring the Dataset 
+
+```{r}
+load(file.path("Data","training_2024-11-04.RData"))
+SEPSISdat<-sepsis_data
+load(file.path("Data","testing_2024-11-04.RData"))
+nrow(SEPSISdat) # should be n=200112
+SEPSISdat_test<-sepsis_data
+rm("sepsis_data")
+```
+
+
+```{r}
+id_sepsis<-unique(SEPSISdat$patient[SEPSISdat$SepsisLabel==1])
+SEPSISdat$has_sepsis<-F
+SEPSISdat$has_sepsis[SEPSISdat$patient %in% id_sepsis] <-T
+
+SEPSISdat_NOsepsis <- SEPSISdat[!SEPSISdat$patient %in% unique(SEPSISdat$patient[SEPSISdat$SepsisLabel==1]),]
+SEPSISdat_Sepsis <- SEPSISdat[SEPSISdat$patient %in% unique(SEPSISdat$patient[SEPSISdat$SepsisLabel==1]),]
+SEPSISdat_Sepsis <- SEPSISdat_Sepsis[SEPSISdat_Sepsis$SepsisLabel==1,]
+```
+
+- Need to check features - map each column and the units they use using the paper
+- We need to see literature to see which features which features have the greatest effects on sepsis 
+- Need to do scaling for certain features 
+- Possibly one hot encoding for some features 
+- need to remove some features
+- improve imputing strategies 
+- Try different models 
+- Do hyperparameter tuning 
+- Could stack models 
+- consider temporal based 
